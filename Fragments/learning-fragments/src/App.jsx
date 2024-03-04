@@ -4,23 +4,16 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
+import FoodItems from "./components/FoodItems";
+import ErrorMessage from "./components/ErrorMessage";
 
 function App() {
   let foodItems = ["Dal", "Green Vegetable", "Roti", "Salad", "Milk", "Ghee"];
-
-  // let foodItems = [];
-
   return (
     <>
       <h1>Healthy Food</h1>
-      {foodItems.length == 0 && <h1>I am still hungry...</h1>}
-      <ul className="list-group">
-        {foodItems.map((item) => (
-          <li key={item} className="list-group-item">
-            {item}
-          </li>
-        ))}
-      </ul>
+      <ErrorMessage foodItems={foodItems}></ErrorMessage>
+      <FoodItems foodItems={foodItems}></FoodItems>
     </>
   );
 }
