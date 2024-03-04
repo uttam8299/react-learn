@@ -10,13 +10,11 @@ function App() {
 
   let foodItems = [];
 
-  if (foodItems.length == 0) {
-    return <h1>I'm still hungry...</h1>;
-  }
-
   return (
     <>
       <h1>Healthy Food</h1>
+      {foodItems.length == 0 ? <h1>I am still hungry...</h1> : null}
+      {/* null - here value can be any falsy value, falsy value --> null, undefined, empty, NaN, zero */}
       <ul className="list-group">
         {foodItems.map((item) => (
           <li key={item} className="list-group-item">
