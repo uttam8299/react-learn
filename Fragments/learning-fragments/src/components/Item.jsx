@@ -1,11 +1,21 @@
 import styles from "./Item.module.css";
 
-const Item = (props) => {
-  let { foodItem } = props; // array-destructuring
+const Item = ({ foodItem }) => {
+  const handleItemOnButtonClicked = (event) => {
+    console.log(event);
+    console.log(`${foodItem} bought`);
+  };
+
+  // let { foodItem } = props; // array-destructuring
   return (
     <li className={`${styles["food-list"]} list-group-item`}>
       <span className={styles["food-item"]}>{foodItem}</span>
-      {/* Css modules - for component level styling, generates special hash at the end of class to differentiate b/w different components styling of same type */}
+      <button
+        className={`${styles.button} btn btn-info`}
+        onClick={(event) => handleItemOnButtonClicked(event)}
+      >
+        Buy
+      </button>
     </li>
   );
 };

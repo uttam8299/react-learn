@@ -1,3 +1,7 @@
 .food-item {
     color: red;
 }
+
+.button {
+    float: right;
+}
