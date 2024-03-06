@@ -1,10 +1,6 @@
 import styles from "./FoodInput.module.css";
 
-const FoodInput = () => {
-  const handleChangeEvent = (event) => {
-    console.log(event.target.value);
-  };
-
+const FoodInput = ({ handleChangeEvent }) => {
   return (
     <input
       className={styles.foodInput}
