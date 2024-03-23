@@ -8,7 +8,7 @@ function TodoItem({ todoName, todoDate, handleDelete }) {
           <button
             type="button"
             className="btn btn-danger kg-button"
-            onClick={handleDelete}
+            onClick={() => handleDelete(todoName)}
           >
             Delete
           </button>

@@ -3,40 +3,34 @@ import AddTodo from "./components/AddTodo";
 import TodoItems from "./components/TodoItems";
 import "./App.css";
 import { useState } from "react";
+import WelcomeMessage from "./components/WelcomeMessage";
 
 function App() {
   let [todoItems, setTodoItem] = useState([]);
-  let [textInput, setTextInput] = useState();
-  let [dateInput, setDateInput] = useState();
 
-  let handleInput = (event) => {
-    let newInput = event.target.value;
-    setTextInput(newInput);
-  };
-
-  let handleDate = (event) => {
-    let newDate = event.target.value;
-    setDateInput(newDate);
-  };
-
-  let handleAddItem = (event) => {
-    let newItem = {
-      name: textInput,
-      dueDate: dateInput,
+  let handleAddItem = (newItem, newDate) => {
+    let newItemToAdd = {
+      name: newItem,
+      dueDate: newDate,
     };
-    let newItems = [...todoItems, newItem];
+    let newItems = [...todoItems, newItemToAdd];
     setTodoItem(newItems);
+  };
+
+  const handleDeleteItem = (itemName) => {
+    let newTodoItems = todoItems.filter((item) => item.name != itemName);
+    setTodoItem(newTodoItems);
   };
 
   return (
     <center className="todo-container">
       <AppName />
-      <AddTodo
-        handleAddItem={handleAddItem}
-        handleDate={handleDate}
-        handleInput={handleInput}
-      />
-      <TodoItems todoItems={todoItems}></TodoItems>
+      <AddTodo handleAddItem={handleAddItem} />
+      {todoItems.length === 0 && <WelcomeMessage></WelcomeMessage>}
+      <TodoItems
+        todoItems={todoItems}
+        handleDelete={handleDeleteItem}
+      ></TodoItems>
     </center>
   );
 }
