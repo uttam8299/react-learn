@@ -9,12 +9,14 @@ function App() {
   let [todoItems, setTodoItem] = useState([]);
 
   let handleAddItem = (newItem, newDate) => {
-    let newItemToAdd = {
-      name: newItem,
-      dueDate: newDate,
-    };
-    let newItems = [...todoItems, newItemToAdd];
-    setTodoItem(newItems);
+    // using currentValue to set state from previous state- React uses async rendering
+    setTodoItem((currentValue) => [
+      ...currentValue,
+      {
+        name: newItem,
+        dueDate: newDate,
+      },
+    ]);
   };
 
   const handleDeleteItem = (itemName) => {
