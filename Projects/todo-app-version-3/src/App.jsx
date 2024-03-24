@@ -28,7 +28,7 @@ function App() {
     <center className="todo-container">
       <AppName />
       <AddTodo handleAddItem={handleAddItem} />
-      {todoItems.length === 0 && <WelcomeMessage></WelcomeMessage>}
+      <WelcomeMessage todoItems={todoItems}></WelcomeMessage>
       <TodoItems
         todoItems={todoItems}
         handleDelete={handleDeleteItem}
