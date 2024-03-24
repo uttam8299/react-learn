@@ -12,7 +12,8 @@ function AddTodo({ handleAddItem }) {
     setNewDate(event.target.value);
   };
 
-  const handleAddButtonClicked = () => {
+  const handleAddButtonClicked = (event) => {
+    event.preventDefault();
     handleAddItem(newName, newDate);
     setNewName("");
     setNewDate("");
@@ -20,28 +21,26 @@ function AddTodo({ handleAddItem }) {
 
   return (
     <div className="container text-center">
-      <div className="row kg-row">
-        <div className="col-6">
-          <input
-            type="text"
-            placeholder="Enter Todo Here"
-            value={newName}
-            onChange={handleNameChange}
-          />
+      <form onSubmit={handleAddButtonClicked}>
+        <div className="row kg-row">
+          <div className="col-6">
+            <input
+              type="text"
+              placeholder="Enter Todo Here"
+              value={newName}
+              onChange={handleNameChange}
+            />
+          </div>
+          <div className="col-4">
+            <input type="date" value={newDate} onChange={handleDateChange} />
+          </div>
+          <div className="col-2 items-container">
+            <button type="submit" className="btn btn-success kg-button">
+              <BiMessageAdd></BiMessageAdd>
+            </button>
+          </div>
         </div>
-        <div className="col-4">
-          <input type="date" value={newDate} onChange={handleDateChange} />
-        </div>
-        <div className="col-2 items-container">
-          <button
-            type="button"
-            className="btn btn-success kg-button"
-            onClick={handleAddButtonClicked}
-          >
-            <BiMessageAdd></BiMessageAdd>
-          </button>
-        </div>
-      </div>
+      </form>
     </div>
   );
 }
