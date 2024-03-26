@@ -4,11 +4,12 @@ import TodoItems from "./components/TodoItems";
 import "./App.css";
 import { useState } from "react";
 import WelcomeMessage from "./components/WelcomeMessage";
+import { TodoItemsContext } from "./store/todo-items-store";
 
 function App() {
   let [todoItems, setTodoItem] = useState([]);
 
-  let handleAddItem = (newItem, newDate) => {
+  let addNewItem = (newItem, newDate) => {
     // using currentValue to set state from previous state- React uses async rendering
     setTodoItem((currentValue) => [
       ...currentValue,
@@ -19,21 +20,26 @@ function App() {
     ]);
   };
 
-  const handleDeleteItem = (itemName) => {
+  const deleteItem = (itemName) => {
     let newTodoItems = todoItems.filter((item) => item.name != itemName);
     setTodoItem(newTodoItems);
   };
 
   return (
-    <center className="todo-container">
-      <AppName />
-      <AddTodo handleAddItem={handleAddItem} />
-      <WelcomeMessage todoItems={todoItems}></WelcomeMessage>
-      <TodoItems
-        todoItems={todoItems}
-        handleDelete={handleDeleteItem}
-      ></TodoItems>
-    </center>
+    <TodoItemsContext.Provider
+      value={{
+        todoItems,
+        addNewItem,
+        deleteItem,
+      }}
+    >
+      <center className="todo-container">
+        <AppName />
+        <AddTodo />
+        <WelcomeMessage></WelcomeMessage>
+        <TodoItems></TodoItems>
+      </center>
+    </TodoItemsContext.Provider>
   );
 }
 
