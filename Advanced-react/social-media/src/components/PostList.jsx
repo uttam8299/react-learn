@@ -11,13 +11,20 @@ const PostList = () => {
   const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     setFetching(true);
-    fetch("https://dummyjson.com/posts")
+    fetch("https://dummyjson.com/posts", { signal })
       .then((res) => res.json())
       .then((data) => {
         addInitialPosts(data.posts);
         setFetching(false);
       });
+
+    return () => {
+      console.log("Cleaning useEffect");
+      controller.abort();
+    }; // this method is used for cleanup - ideal for removing event listener
   }, []); // second arg is dependency list. this hooks runs when variables in dependecy list changes
 
   return (
