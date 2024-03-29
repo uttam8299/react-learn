@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useCallback } from "react";
 import { createContext, useReducer } from "react";
 
@@ -60,6 +61,11 @@ const PostListProvider = ({ children }) => {
     },
     [dispatchPostList]
   );
+
+  // useMemo - same as callback - optimization technique - takes function and dependencies as argument - used for complex calculations
+
+  const arr = [3, 2, 4, 6, 3, 4, 5];
+  const sortedArray = useMemo(() => arr.sort(), [arr]);
 
   return (
     <PostList.Provider
