@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useCallback } from "react";
 import { createContext, useReducer } from "react";
 
@@ -24,38 +23,11 @@ const postListReducer = (currPostList, action) => {
 
 const PostListProvider = ({ children }) => {
   const [postList, dispatchPostList] = useReducer(postListReducer, []);
-  const [fetching, setFetching] = useState(false);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    setFetching(true);
-    fetch("https://dummyjson.com/posts", { signal })
-      .then((res) => res.json())
-      .then((data) => {
-        addInitialPosts(data.posts);
-        setFetching(false);
-      });
-
-    return () => {
-      console.log("Cleaning useEffect");
-      controller.abort();
-    }; // this method is used for cleanup - ideal for removing event listener
-  }, []); // second arg is dependency list. this hooks runs when variables in dependecy list changes
 
   const addPost = (post) => {
     dispatchPostList({
       type: "ADD_POST",
       payload: post,
-    });
-  };
-
-  const addInitialPosts = (posts) => {
-    dispatchPostList({
-      type: "ADD_INITIAL_POST",
-      payload: {
-        posts,
-      },
     });
   };
 
@@ -78,7 +50,7 @@ const PostListProvider = ({ children }) => {
   // const sortedArray = useMemo(() => arr.sort(), [arr]);
 
   return (
-    <PostList.Provider value={{ postList, addPost, deletePost, fetching }}>
+    <PostList.Provider value={{ postList, addPost, deletePost }}>
       {children}
     </PostList.Provider>
   );
