@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useCallback } from "react";
 import { createContext, useReducer } from "react";
 
@@ -6,7 +6,6 @@ export const PostList = createContext({
   postList: [],
   addPost: () => {},
   deletePost: () => {},
-  addInitialPosts: () => {},
 });
 
 const postListReducer = (currPostList, action) => {
@@ -25,18 +24,29 @@ const postListReducer = (currPostList, action) => {
 
 const PostListProvider = ({ children }) => {
   const [postList, dispatchPostList] = useReducer(postListReducer, []);
+  const [fetching, setFetching] = useState(false);
 
-  const addPost = (userId, postTitle, postBody, reactions, tags) => {
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    setFetching(true);
+    fetch("https://dummyjson.com/posts", { signal })
+      .then((res) => res.json())
+      .then((data) => {
+        addInitialPosts(data.posts);
+        setFetching(false);
+      });
+
+    return () => {
+      console.log("Cleaning useEffect");
+      controller.abort();
+    }; // this method is used for cleanup - ideal for removing event listener
+  }, []); // second arg is dependency list. this hooks runs when variables in dependecy list changes
+
+  const addPost = (post) => {
     dispatchPostList({
       type: "ADD_POST",
-      payload: {
-        id: Date.now(),
-        title: postTitle,
-        body: postBody,
-        reactions: reactions,
-        userId: "user-9",
-        tags: tags,
-      },
+      payload: post,
     });
   };
 
@@ -64,13 +74,11 @@ const PostListProvider = ({ children }) => {
 
   // useMemo - same as callback - optimization technique - takes function and dependencies as argument - used for complex calculations
 
-  const arr = [3, 2, 4, 6, 3, 4, 5];
-  const sortedArray = useMemo(() => arr.sort(), [arr]);
+  // const arr = [3, 2, 4, 6, 3, 4, 5];
+  // const sortedArray = useMemo(() => arr.sort(), [arr]);
 
   return (
-    <PostList.Provider
-      value={{ postList, addPost, deletePost, addInitialPosts }}
-    >
+    <PostList.Provider value={{ postList, addPost, deletePost, fetching }}>
       {children}
     </PostList.Provider>
   );
