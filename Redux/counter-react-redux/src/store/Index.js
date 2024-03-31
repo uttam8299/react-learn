@@ -12,6 +12,12 @@ const counterReducer = (store = INITIAL_VALUE, action) => {
     else if(action.type === 'DECREMENT') {
         newStore = {counter: store.counter - 1}
     }
+    else if(action.type === 'ADD') {
+        newStore = {counter: store.counter + Number(action.payload.num)}
+    }
+    else if(action.type === 'SUBTRACT') {
+        newStore = {counter: store.counter - Number(action.payload.num)}
+    }
     return newStore;
 }
 
