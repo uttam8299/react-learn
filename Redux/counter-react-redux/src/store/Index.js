@@ -8,19 +8,19 @@ const INITIAL_VALUE = {
 const counterReducer = (store = INITIAL_VALUE, action) => {
     let newStore = store;
     if(action.type === 'INCREMENT') {
-        newStore = {counter: store.counter + 1, privacy: store.privacy}
+        newStore = {...store, counter: store.counter + 1}
     }
     else if(action.type === 'DECREMENT') {
-        newStore = {counter: store.counter - 1}
+        newStore = {...store, counter: store.counter - 1}
     }
     else if(action.type === 'ADD') {
-        newStore = {counter: store.counter + Number(action.payload.num), privacy: store.privacy}
+        newStore = {...store, counter: store.counter + Number(action.payload.num)}
     }
     else if(action.type === 'SUBTRACT') {
-        newStore = {counter: store.counter - Number(action.payload.num), privacy: store.privacy}
+        newStore = {...store, counter: store.counter - Number(action.payload.num)}
     }
     else if(action.type === 'PRIVACY_TOGGLE') {
-       return {counter: store.counter, privacy: !store.privacy};
+       return {...store, privacy: !store.privacy};
     }
     return newStore;
 }
